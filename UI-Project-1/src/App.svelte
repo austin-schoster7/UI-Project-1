@@ -1,47 +1,84 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import Header from './components/Header.svelte';
+  import Sidebar from './components/Sidebar.svelte';
+  import MainContent from './components/MainContent.svelte';
+  import Profile from './components/Profile.svelte';
+  import Goals from './components/Goals.svelte';
+
+  let showSidebar = false;
+  let currentDate = new Date().toLocaleDateString();
+  let workouts = {}; // Object to store workouts
+  let firstName;
+  let lastName;
+  let email;
+
+  function toggleSidebar() {
+    showSidebar = !showSidebar;
+  }
+
+  // Load saved workouts from localStorage on initialization
+  $: {
+    const savedWorkouts = localStorage.getItem('workouts');
+    if (savedWorkouts) {
+      workouts = JSON.parse(savedWorkouts);
+    }
+
+    let profileInfo = localStorage.getItem('profile');
+    if (profileInfo) {
+      firstName = JSON.parse(profileInfo).firstName;
+      lastName = JSON.parse(profileInfo).lastName;
+      email = JSON.parse(profileInfo).email;
+    }
+  }
+
+  // Function to handle selecting a date from the sidebar
+  function selectDate(day) {
+    const selectedDate = new Date(new Date().getFullYear(), new Date().getMonth(), day).toLocaleDateString();
+    currentDate = selectedDate;
+  }
+
+  // Save workout data to localStorage
+  function saveWorkoutData(event) {
+    const workout = event.detail;
+    workouts[currentDate] = workout;
+    localStorage.setItem('workouts', JSON.stringify(workouts));
+  }
+
+  function scrollToLocation(event) {
+    const location = event.detail.location;
+    if (location === 'profile') {
+      document.getElementById('profile-section').scrollIntoView({ behavior: 'smooth' });
+    }
+    else if (location === 'goals') {
+      document.getElementById('goals-section').scrollIntoView({ behavior: 'smooth' });
+    }
+    else if (location === 'settings') {
+      document.getElementById('settings-section').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function saveProfile(event) {
+    firstName = event.detail;
+  }
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<Header {toggleSidebar} {showSidebar} on:scrollToLocation={scrollToLocation}/>
+<Sidebar {showSidebar} {selectDate} {currentDate} {workouts}/>
+<MainContent {showSidebar} {currentDate} {firstName} on:saveWorkOut={saveWorkoutData}/>
 
-  <div class="card">
-    <Counter />
-  </div>
+<div id="goals-section">
+  <Goals {showSidebar}/>
+</div>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+<!-- Profile section -->
+<div id="profile-section">
+  <Profile {firstName} {lastName} {email} {showSidebar} on:saveProfile={saveProfile}/>
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+  :global(body) {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding-top: 100px;
   }
 </style>

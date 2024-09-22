@@ -138,7 +138,7 @@
 
                 {#if selectedChestTypes.includes('Bench Press')}
                     <h4>Bench press weight:</h4>
-                    <input type="number" bind:value={benchWeight}/>
+                    <input class="input-box" type="number" bind:value={benchWeight}/>
                 {/if}
             {/if}
 

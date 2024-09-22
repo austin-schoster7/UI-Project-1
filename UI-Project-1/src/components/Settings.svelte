@@ -4,43 +4,41 @@
     const dispatch = createEventDispatcher();
 
     export let showSidebar;
-    export let firstName = "";
-    export let lastName = "";
-    export let email = "";
   
-    function saveProfile() {
-        dispatch('saveProfile', firstName);
-        localStorage.setItem('profile', JSON.stringify({ firstName, lastName, email }));
-        alert('Profile saved successfully!');
+    function saveSettings() {
+        
+    }
+
+    function confirmClearData() {
+        const userConfirmed = confirm('Are you sure you want to clear all data?');
+        if (userConfirmed) {
+            clearWorkoutData();
+            alert('All data cleared successfully!');
+        }
+    }
+
+    function clearWorkoutData() {
+        localStorage.clear();
     }
   </script>
   
-  <div class="profile-page {showSidebar ? 'shifted' : ''}">
-    <h2>Edit Profile</h2>
+  <div class="goal-page {showSidebar ? 'shifted' : ''}">
+    <h2>Settings</h2>
     
-    <form on:submit|preventDefault={saveProfile}>
-      <label for="first-name">First Name</label>
-      <input type="text" id="first-name" placeholder="First name" bind:value={firstName} />
-
-      <label for="last-name">Last Name</label>
-      <input type="text" id="last-name" placeholder="Last name" bind:value={lastName} />
-  
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="example@email.com" bind:value={email} />
-  
-      <button type="submit">Save Changes</button>
-    </form>
+    <div class="button-group">
+        <button class="btn clear-btn" on:click={confirmClearData}>Clear ALL Data</button>
+    </div>
   </div>
   
   <style>
-    .profile-page {
+    .goal-page {
       padding: 20px;
       border-top: 5px solid #8EBFDA;
       margin-top: 20px;
       transition: margin-left 0.3s ease;
     }
 
-    .profile-page.shifted {
+    .goal-page.shifted {
       margin-left: 350px;
     }
   
@@ -54,7 +52,6 @@
       padding: 8px;
       width: 100%;
       box-sizing: border-box;
-      border: #8EBFDA 1px solid;
     }
   
     button {
@@ -75,6 +72,22 @@
     button:hover {
         background-color: #7572A8;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .clear-btn {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .clear-btn:hover {
+        background-color: #c0392b;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-group {
+        display: flex;
+        /* justify-content: center; */
+        margin: 10px 0;
     }
   </style>
   

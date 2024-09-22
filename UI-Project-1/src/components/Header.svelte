@@ -46,7 +46,7 @@
         </div>
       
         <div class="button-wrapper">
-          <button class="settings-button">&#9881;</button>
+          <button on:click={() => scrollToLocation('settings')} class="settings-button">&#9881;</button>
           <label for="settings-button">Settings</label>
         </div>
     </div>
@@ -55,22 +55,19 @@
 
 <style>
     .app-header {
-        position: fixed; /* Make the header fixed at the top */
+        position: fixed;
         top: 0;
         width: 100%;
         height: 100px;
-        background-color: #00aaf8;
+        background-color: #2D3C51; /* Dark blue background */
         z-index: 1;
         display: flex;
         align-items: center;
         justify-content: space-between;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         transition: margin-left 0.3s ease;
+        color: white; /* White text */
     }
-
-    /* .app-header.shifted {
-        margin-left: 350px;
-    } */
 
     .header-left {
         display: flex;
@@ -78,6 +75,7 @@
         transition: margin-left 0.3s ease;
         padding: 20px;
         padding-top: 10px;
+        color: #F5F4F3; /* Light gray text */
     }
 
     .header-left.shifted {
@@ -86,8 +84,7 @@
 
     .date-time {
         font-size: 1rem;
-        color: #363a3e;
-        margin: 0;
+        color: #8EBFDA; /* Light blue */
     }
 
     .header-buttons {
@@ -108,10 +105,18 @@
         background: none;
         border: none;
         cursor: pointer;
+        color: white; /* White button text */
     }
 
     label {
         font-size: 14px;
         text-align: center;
+        color: #F5F4F3; /* Light gray */
+    }
+
+    .header-left h1 {
+        margin: 0;
+        padding: 20px 0 0 0;
     }
 </style>
+

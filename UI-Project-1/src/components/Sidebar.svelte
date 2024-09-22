@@ -18,7 +18,7 @@
   let avgWorkoutRating = 0;
   let avgWorkoutDuration = '0 hours 0 minutes';
   let avgWorkoutsPerWeek = 0;
-  let longestDistance;
+  let longestDistance = 0;
   let benchPR = 0;
   let milePRMinBest = 0;
   let milePRSecBest = 0;
